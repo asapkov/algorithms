@@ -1,17 +1,13 @@
 package chus.algorithm;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.Random;
 
 public class QuickSorter<T extends Comparable<T>> extends Sorter<T> {
+    private Random rnd = new Random();
 
-    @SuppressWarnings("unchecked")
     @Override
     public void sort(T[] a) {
-        List<T> shuffled = Arrays.asList(a);
-        Collections.shuffle(shuffled);
-        a = Arrays.copyOf((T[]) shuffled.stream().toArray(), a.length);
+        shuffleArray(a);
         sort(a, 0, a.length - 1);
     }
 
@@ -47,6 +43,7 @@ public class QuickSorter<T extends Comparable<T>> extends Sorter<T> {
             if (i >= j) {
                 break;
             }
+
             exch(a, i, j);
         }
 
@@ -54,4 +51,13 @@ public class QuickSorter<T extends Comparable<T>> extends Sorter<T> {
         return j;
     }
 
+    private void shuffleArray(T[] ar) {
+        for (int i = ar.length - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+
+            T a = ar[index];
+            ar[index] = ar[i];
+            ar[i] = a;
+        }
+    }
 }
