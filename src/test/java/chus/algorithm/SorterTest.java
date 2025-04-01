@@ -8,12 +8,12 @@ class SorterTest {
     class DummySorter<T extends Comparable<T>> extends Sorter<T> {
         @Override
         public void sort(T[] a) {
-            return;
+            return; // just a dummy, it doesn't really sort anything
         }
     }
 
     @Test
-    void test_is_sorted_that_it_correctly_recognises_sorted_or_unsorted_collections() {
+    void test_is_sorted_that_it_correctly_recognizes_sorted_or_unsorted_collections() {
         Integer[] sorted = new Integer[] { 0, 1, 2, 3, 4 };
         Integer[] unsorted = new Integer[] { 4, 1, 2, 5, 3 };
 

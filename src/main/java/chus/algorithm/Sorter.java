@@ -12,8 +12,14 @@ public abstract class Sorter<T extends Comparable<T>> {
         return true;
     }
 
-    private <V extends Comparable<V>> boolean less(V v, V w) {
+    protected boolean less(T v, T w) {
         return v.compareTo(w) < 0;
+    }
+
+    protected void exch(T[] a, int i, int j) {
+        T t = a[i];
+        a[i] = a[j];
+        a[j] = t;
     }
 
 }
