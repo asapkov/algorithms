@@ -1,70 +1,84 @@
 package chus.algorithm;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MaxPriorityQueue<K extends Comparable<K>> {
     private List<K> a;
-
-    public MaxPriorityQueue() {
-    }
-
-    public MaxPriorityQueue(int i) {
-        a = new ArrayList<>(10);
-    }
+    private int n = 0;
 
     public MaxPriorityQueue(K[] a) {
-        this.a = new ArrayList<>(Arrays.asList(a));
+        this.a = new ArrayList<>();
+
+        this.a.add(null);
+        for (int i = 0; i < a.length; i++) {
+            insert(a[i]);
+        }
     }
 
     public boolean isEmpty() {
-        return a == null || a.isEmpty();
+        return n == 0;
     }
 
     public int size() {
-        if (a == null) {
-            return 0;
-        }
-
-        return a.size();
+        return n;
     }
 
     public K max() {
-        if (isEmpty()) {
-            return null;
-        }
-
-        K max = a.get(0);
-        for (int i = 1; i < a.size(); i++) {
-            if (max.compareTo(a.get(i)) < 0) {
-                max = a.get(i);
-            }
-        }
-
-        return max;
+        return a.get(1);
     }
 
     public K delMax() {
-        if (isEmpty()) {
-            return null;
-        }
+        K max = a.get(1);
 
-        K max = a.get(0);
-        int maxInd = 0;
-        for (int i = 1; i < a.size(); i++) {
-            if (max.compareTo(a.get(i)) < 0) {
-                max = a.get(i);
-                maxInd = i;
-            }
-        }
+        exch(1, n--);
+        a.set(n + 1, null);
+        sink(1);
 
-        a.remove(maxInd);
+        a.remove(n + 1);
+
         return max;
     }
 
+    private void sink(int k) {
+        while (2 * k <= n) {
+            int j = 2 * k;
+
+            if (j < n && less(j, j + 1)) {
+                j++;
+            }
+
+            if (!less(k, j)) {
+                break;
+            }
+
+            exch(k, j);
+
+            k = j;
+        }
+    }
+
     public void insert(K i) {
-        a.add(0, i);
+        n++;
+        a.add(i);
+        swim(n);
+    }
+
+    private void swim(int k) {
+        while (k > 1 && less(k / 2, k)) {
+            exch(k / 2, k);
+            k = k / 2;
+        }
+    }
+
+    protected boolean less(int v, int w) {
+        return a.get(v).compareTo(a.get(w)) < 0;
+    }
+
+    protected void exch(int i, int j) {
+        K t = a.get(i);
+        a.set(i, a.get(j));
+        a.set(j, t);
     }
 
 }
