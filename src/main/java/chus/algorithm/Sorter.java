@@ -5,6 +5,11 @@ public abstract class Sorter<T extends Comparable<T>> {
 
     public boolean isSorted(T[] a) {
         for (int i = 1; i < a.length; i++) {
+            if (a[i - 1] == null) {
+                // null value for index 0 is required by heapsort algorithm.
+                // We should skip it here.
+                continue;
+            }
             if (less(a[i], a[i - 1])) {
                 return false;
             }

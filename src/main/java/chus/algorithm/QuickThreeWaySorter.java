@@ -38,35 +38,6 @@ public class QuickThreeWaySorter<T extends Comparable<T>> extends Sorter<T> {
         sort(a, gt + 1, hi);
     }
 
-    private int partition(T[] a, int lo, int hi) {
-        int i = lo;
-        int j = hi + 1;
-        T v = a[lo];
-
-        while (true) {
-            while (less(a[++i], v)) {
-                if (i == hi) {
-                    break;
-                }
-            }
-
-            while (less(v, a[--j])) {
-                if (j == lo) {
-                    break;
-                }
-            }
-
-            if (i >= j) {
-                break;
-            }
-
-            exch(a, i, j);
-        }
-
-        exch(a, lo, j);
-        return j;
-    }
-
     private void shuffleArray(T[] ar) {
         for (int i = ar.length - 1; i > 0; i--) {
             int index = rnd.nextInt(i + 1);
